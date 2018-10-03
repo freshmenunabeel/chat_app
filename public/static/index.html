@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('message', function (msg) {
+      $('#msgrecieve').append('<li>' + msg + '</li>');
+    });
+    function sendMessage() {
+      var sendTo = $('#sendTo').val();
+      var msg = $('#m').val();
+      var mgs = { 'user': sendTo, 'msg': msg };
+      console.log(mgs);
+      socket.emit('message',mgs);
+    }
+    function register() {
+      socket.emit('handSake', $('#usename').val());
+    }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+</head>
+
+<body>
+  <input type="text" id='usename' /> <button onclick="register();">Register</button><br />
+  <input type="text" id='sendTo' />
+  <input id="m" autocomplete="off" /><button onclick="sendMessage();">Send</button>
+  <span id='msg'></span>
+  <ul id='msgrecieve'></ul>
+</body>
+
+</html>
