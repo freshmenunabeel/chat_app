@@ -1,5 +1,4 @@
 
-var redisService = require('./redis');
 var socketServer = require('./socketServer');
 module.exports = function (io) {
     var sockets = {};
